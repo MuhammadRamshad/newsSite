@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://my-api-usa.com/ramshad/foxiz/sitemap.xml
