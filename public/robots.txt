@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-api-usa.com/ramshad/foxiz/sitemap.xml
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+Disallow: /storage/
+Disallow: /*.json$
+
+Allow: /assets/
+
+Sitemap: https://YOUR_DOMAIN_HERE/sitemap.xml

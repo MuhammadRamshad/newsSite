@@ -2,6 +2,9 @@
 @extends('layouts.app')
 @section('title', 'Illuminated — Art & Discoveries')
 @section('description', 'Illuminated Magazine covers art, history, science, discoveries and cultural stories updated daily.')
+@section('keywords', 'illuminated magazine, art, discoveries, history, science, culture, travel, stories')
+@section('canonical', url('/'))
+@section('og_image', asset('assets/images/foxiz.webp'))
 
 @section('content')
 
@@ -17,7 +20,7 @@
             @if($featureLeft)
             <div class="fa-card">
                 <a href="{{ route('news.show', [$featureLeft->category->slug, $featureLeft->encode_title]) }}" title="{{ $featureLeft->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $featureLeft->photo) }}" alt="{{ $featureLeft->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $featureLeft->photo) }}" alt="{{ $featureLeft->news_title }}">
                 </a>
                 <span class="fa-tag">{{ strtoupper($featureLeft->category->category_name) }}</span>
                 <h4>
@@ -48,7 +51,7 @@
             @if($featureMain)
             <div class="fa-main">
                 <a href="{{ route('news.show', [$featureMain->category->slug, $featureMain->encode_title]) }}" title="{{ $featureMain->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $featureMain->photo) }}" alt="{{ $featureMain->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $featureMain->photo) }}" alt="{{ $featureMain->news_title }}">
                 </a>
                 <div class="fa-main-text">
                     <span class="fa-tag">{{ strtoupper($featureMain->category->category_name) }}</span>
@@ -118,7 +121,7 @@
                 @foreach($latestFeatured as $item)
                 <div class="lf-card">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                     </a>
                     <div class="lf-body">
                         <span class="lf-cat">{{ strtoupper($item->category->category_name) }}</span>
@@ -162,7 +165,7 @@
             <div class="pd-col">
                 @if($photoOfDay->get(0))
                 <a href="{{ route('news.show', [$photoOfDay->get(0)->category->slug, $photoOfDay->get(0)->encode_title]) }}" title="{{ $photoOfDay->get(0)->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $photoOfDay->get(0)->photo) }}" class="pd-img-tall-full" alt="{{ $photoOfDay->get(0)->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $photoOfDay->get(0)->photo) }}" class="pd-img-tall-full" alt="{{ $photoOfDay->get(0)->news_title }}">
                 </a>
                 @endif
             </div>
@@ -170,12 +173,12 @@
             <div class="pd-col">
                 @if($photoOfDay->get(1))
                 <a href="{{ route('news.show', [$photoOfDay->get(1)->category->slug, $photoOfDay->get(1)->encode_title]) }}" title="{{ $photoOfDay->get(1)->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $photoOfDay->get(1)->photo) }}" class="pd-img-large" alt="{{ $photoOfDay->get(1)->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $photoOfDay->get(1)->photo) }}" class="pd-img-large" alt="{{ $photoOfDay->get(1)->news_title }}">
                 </a>
                 @endif
                 @if($photoOfDay->get(2))
                 <a href="{{ route('news.show', [$photoOfDay->get(2)->category->slug, $photoOfDay->get(2)->encode_title]) }}" title="{{ $photoOfDay->get(2)->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $photoOfDay->get(2)->photo) }}" class="pd-img-medium" alt="{{ $photoOfDay->get(2)->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $photoOfDay->get(2)->photo) }}" class="pd-img-medium" alt="{{ $photoOfDay->get(2)->news_title }}">
                 </a>
                 @endif
             </div>
@@ -183,12 +186,12 @@
             <div class="pd-col">
                 @if($photoOfDay->get(3))
                 <a href="{{ route('news.show', [$photoOfDay->get(3)->category->slug, $photoOfDay->get(3)->encode_title]) }}" title="{{ $photoOfDay->get(3)->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $photoOfDay->get(3)->photo) }}" class="pd-img-small" alt="{{ $photoOfDay->get(3)->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $photoOfDay->get(3)->photo) }}" class="pd-img-small" alt="{{ $photoOfDay->get(3)->news_title }}">
                 </a>
                 @endif
                 @if($photoOfDay->get(4))
                 <a href="{{ route('news.show', [$photoOfDay->get(4)->category->slug, $photoOfDay->get(4)->encode_title]) }}" title="{{ $photoOfDay->get(4)->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $photoOfDay->get(4)->photo) }}" class="pd-img-tall" alt="{{ $photoOfDay->get(4)->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $photoOfDay->get(4)->photo) }}" class="pd-img-tall" alt="{{ $photoOfDay->get(4)->news_title }}">
                 </a>
                 @endif
             </div>
@@ -216,7 +219,7 @@
             @php $h0 = $historySectionNews->get(0); @endphp
             <div class="hs-large">
                 <a href="{{ route('news.show', [$h0->category->slug, $h0->encode_title]) }}" title="{{ $h0->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $h0->photo) }}" alt="{{ $h0->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $h0->photo) }}" alt="{{ $h0->news_title }}">
                 </a>
                 <div class="hs-overlay">
                     <span class="hs-tag">{{ strtoupper($h0->category->category_name) }}</span>
@@ -230,7 +233,7 @@
             @php $h1 = $historySectionNews->get(1); @endphp
             <div class="hs-right">
                 <a href="{{ route('news.show', [$h1->category->slug, $h1->encode_title]) }}" title="{{ $h1->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $h1->photo) }}" alt="{{ $h1->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $h1->photo) }}" alt="{{ $h1->news_title }}">
                 </a>
                 <span class="hs-tag">{{ strtoupper($h1->category->category_name) }}</span>
                 <h4><a href="{{ route('news.show', [$h1->category->slug, $h1->encode_title]) }}" title="{{ $h1->news_title }}">{{ $h1->news_title }}</a></h4>
@@ -243,7 +246,7 @@
             @foreach($historySectionNews->slice(2, 3) as $item)
             <div class="hs-small">
                 <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                 </a>
                 <span class="hs-tag">{{ strtoupper($item->category->category_name) }}</span>
                 <h5><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h5>
@@ -280,7 +283,7 @@
                 @php $a0 = $artSectionNews->get(0); @endphp
                 <div class="ac-card">
                     <a href="{{ route('news.show', [$a0->category->slug, $a0->encode_title]) }}" title="{{ $a0->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a0->photo) }}" class="ac-img-tall" alt="{{ $a0->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a0->photo) }}" class="ac-img-tall" alt="{{ $a0->news_title }}">
                     </a>
                     <div class="ac-text">
                         <h3><a href="{{ route('news.show', [$a0->category->slug, $a0->encode_title]) }}">{{ $a0->news_title }}</a></h3>
@@ -292,7 +295,7 @@
                 @php $a1 = $artSectionNews->get(1); @endphp
                 <div class="ac-card">
                     <a href="{{ route('news.show', [$a1->category->slug, $a1->encode_title]) }}" title="{{ $a1->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a1->photo) }}" class="ac-img-short" alt="{{ $a1->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a1->photo) }}" class="ac-img-short" alt="{{ $a1->news_title }}">
                     </a>
                     <div class="ac-text">
                         <h3><a href="{{ route('news.show', [$a1->category->slug, $a1->encode_title]) }}">{{ $a1->news_title }}</a></h3>
@@ -308,7 +311,7 @@
                 @php $a2 = $artSectionNews->get(2); @endphp
                 <div class="ac-card">
                     <a href="{{ route('news.show', [$a2->category->slug, $a2->encode_title]) }}" title="{{ $a2->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a2->photo) }}" class="ac-img-short" alt="{{ $a2->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a2->photo) }}" class="ac-img-short" alt="{{ $a2->news_title }}">
                     </a>
                     <div class="ac-text">
                         <h3><a href="{{ route('news.show', [$a2->category->slug, $a2->encode_title]) }}">{{ $a2->news_title }}</a></h3>
@@ -320,7 +323,7 @@
                 @php $a3 = $artSectionNews->get(3); @endphp
                 <div class="ac-card">
                     <a href="{{ route('news.show', [$a3->category->slug, $a3->encode_title]) }}" title="{{ $a3->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a3->photo) }}" class="ac-img-tall" alt="{{ $a3->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a3->photo) }}" class="ac-img-tall" alt="{{ $a3->news_title }}">
                     </a>
                     <div class="ac-text">
                         <h3><a href="{{ route('news.show', [$a3->category->slug, $a3->encode_title]) }}">{{ $a3->news_title }}</a></h3>
@@ -336,7 +339,7 @@
                 @php $a4 = $artSectionNews->get(4); @endphp
                 <div class="ac-card ac-image-only">
                     <a href="{{ route('news.show', [$a4->category->slug, $a4->encode_title]) }}" title="{{ $a4->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a4->photo) }}" class="ac-img-large" alt="{{ $a4->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a4->photo) }}" class="ac-img-large" alt="{{ $a4->news_title }}">
                     </a>
                 </div>
                 @endif
@@ -344,7 +347,7 @@
                 @php $a5 = $artSectionNews->get(5); @endphp
                 <div class="ac-card ac-image-only">
                     <a href="{{ route('news.show', [$a5->category->slug, $a5->encode_title]) }}" title="{{ $a5->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $a5->photo) }}" class="ac-img-medium" alt="{{ $a5->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $a5->photo) }}" class="ac-img-medium" alt="{{ $a5->news_title }}">
                     </a>
                 </div>
                 @endif
@@ -374,7 +377,7 @@
             @php $d0 = $discoveriesNews->get(0); @endphp
             <div class="dc-left">
                 <a href="{{ route('news.show', [$d0->category->slug, $d0->encode_title]) }}" title="{{ $d0->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $d0->photo) }}" alt="{{ $d0->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $d0->photo) }}" alt="{{ $d0->news_title }}">
                 </a>
                 <span class="dc-label">{{ strtoupper($d0->category->category_name) }}</span>
                 <h3 class="dc-big-title">
@@ -388,7 +391,7 @@
             @php $d1 = $discoveriesNews->get(1); @endphp
             <div class="dc-middle">
                 <a href="{{ route('news.show', [$d1->category->slug, $d1->encode_title]) }}" title="{{ $d1->news_title }}">
-                    <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $d1->photo) }}" alt="{{ $d1->news_title }}">
+                    <img src="{{ asset('assets/images/uploads/' . $d1->photo) }}" alt="{{ $d1->news_title }}">
                 </a>
                 <div class="dc-overlay">
                     <span class="dc-label">{{ strtoupper($d1->category->category_name) }}</span>
@@ -433,7 +436,7 @@
         @foreach($travelNews as $item)
         <article class="post-card">
             <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
             </a>
             <div class="post-content">
                 <span class="post-tag">{{ strtoupper($item->category->category_name) }}</span>
@@ -474,7 +477,7 @@
                 @if($index % 2 == 0)
                 <div class="ms-image">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                     </a>
                 </div>
                 <div class="ms-text">
@@ -490,7 +493,7 @@
                 </div>
                 <div class="ms-image">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                     </a>
                 </div>
                 @endif

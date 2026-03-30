@@ -1,7 +1,9 @@
 @php use Illuminate\Support\Str; @endphp
 @extends('layouts.app')
-@section('title', 'Search: ' . $query . ' — Illuminated Magazine')
-@section('description', 'Search results for "' . $query . '" on Illuminated Magazine.')
+@section('title', $query ? 'Search: ' . $query . ' — Illuminated Magazine' : 'Search — Illuminated Magazine')
+@section('description', $query ? 'Search results for "' . $query . '" on Illuminated Magazine.' : 'Search all articles and stories on Illuminated Magazine.')
+@section('robots', 'noindex,follow')
+@section('canonical', route('search') . ($query ? '?q=' . urlencode($query) : ''))
 
 @section('content')
 
@@ -47,7 +49,7 @@
                     @if($index % 2 == 0)
                     <div class="ms-image">
                         <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                            <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                         </a>
                     </div>
                     <div class="ms-text">
@@ -65,7 +67,7 @@
                     </div>
                     <div class="ms-image">
                         <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                            <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                         </a>
                     </div>
                     @endif

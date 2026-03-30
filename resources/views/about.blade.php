@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'About — Illuminated Magazine')
 @section('description', 'Learn about Illuminated Magazine — your trusted source for art, history, science and cultural discoveries.')
+@section('keywords', 'about illuminated magazine, art journalism, cultural discoveries, history reporting')
+@section('canonical', route('about'))
 
 @section('content')
 

@@ -3,31 +3,64 @@
 
 @section('title', $newsDetail->news_title . ' — Illuminated Magazine')
 @section('description', Str::limit(strip_tags($newsDetail->news_content_short), 155))
-@section('image', url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo))
+@section('keywords', optional($newsDetail->category)->category_name . ', illuminated magazine, art, discoveries')
+@section('og_image', asset('assets/images/uploads/' . $newsDetail->photo))
 @section('canonical', route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title]))
+@section('article_author', optional($newsDetail->author)->name ?? 'Editorial Desk')
+@section('article_section', optional($newsDetail->category)->category_name)
+@section('published_time', \Carbon\Carbon::parse($newsDetail->news_date ?? $newsDetail->updated_at)->toIso8601String())
+@section('modified_time', \Carbon\Carbon::parse($newsDetail->updated_at ?? $newsDetail->news_date)->toIso8601String())
+@section('twitter_creator', '@illuminatedmag')
 
 @section('schema')
 @php
 $articleSchema = [
     "@context"        => "https://schema.org",
-    "@type"           => "Article",
+    "@type"           => "NewsArticle",
+    "mainEntityOfPage" => [
+        "@type" => "WebPage",
+        "@id"   => route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title]),
+    ],
     "headline"        => $newsDetail->news_title,
     "description"     => Str::limit(strip_tags($newsDetail->news_content_short), 160),
-    "image"           => ['https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo],
+    "image"           => [
+        "@type"  => "ImageObject",
+        "url"    => asset('assets/images/uploads/' . $newsDetail->photo),
+        "width"  => 1200,
+        "height" => 630,
+    ],
+    "datePublished"   => \Carbon\Carbon::parse($newsDetail->news_date ?? $newsDetail->updated_at)->toIso8601String(),
     "dateModified"    => \Carbon\Carbon::parse($newsDetail->updated_at ?? $newsDetail->news_date)->toIso8601String(),
     "author"          => [
         "@type" => "Person",
         "name"  => optional($newsDetail->author)->name ?? 'Editorial Desk',
+        "url"   => $newsDetail->author ? route('author.show', $newsDetail->author->slug) : url('/'),
     ],
     "publisher" => [
         "@type" => "Organization",
-        "name"  => config('app.name'),
+        "name"  => config('app.name', 'Illuminated Magazine'),
+        "logo"  => [
+            "@type" => "ImageObject",
+            "url"   => asset('assets/images/logo.webp'),
+        ],
     ],
+    "articleSection" => optional($newsDetail->category)->category_name,
+    "wordCount"      => str_word_count(strip_tags($newsDetail->news_content ?? '')),
+    "url"            => route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title]),
+];
+
+$breadcrumbSchema = [
+    "@context" => "https://schema.org",
+    "@type"    => "BreadcrumbList",
+    "itemListElement" => [
+        ["@type" => "ListItem", "position" => 1, "name" => "Home", "item" => url('/')],
+        ["@type" => "ListItem", "position" => 2, "name" => optional($newsDetail->category)->category_name, "item" => route('category.show', optional($newsDetail->category)->slug ?? '#')],
+        ["@type" => "ListItem", "position" => 3, "name" => $newsDetail->news_title],
+    ]
 ];
 @endphp
-<script type="application/ld+json">
-{!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
-</script>
+<script type="application/ld+json">{!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
 @endsection
 
 @section('content')
@@ -38,7 +71,7 @@ $articleSchema = [
 <section class="post-hero-section">
 
     <div class="post-hero-image">
-        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo) }}" alt="{{ $newsDetail->news_title }}">
+        <img src="{{ asset('assets/images/uploads/' . $newsDetail->photo) }}" alt="{{ $newsDetail->news_title }}">
     </div>
 
     <div class="post-hero-container">
@@ -211,7 +244,7 @@ $articleSchema = [
         @foreach($recommended as $item)
         <article class="post-card">
             <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
             </a>
             <div class="post-content">
                 <span class="post-tag">{{ strtoupper($item->category->category_name) }}</span>

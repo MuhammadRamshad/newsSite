@@ -1,6 +1,8 @@
 @extends('layouts.app')
-@section('title','Personalized News Feed | '.config('app.name'))
-@section('description','Latest curated stories and recommended news articles.')
+@section('title', 'Personalized News Feed — ' . config('app.name', 'Illuminated Magazine'))
+@section('description', 'Your personalized feed of curated stories and recommended articles from Illuminated Magazine.')
+@section('robots', 'noindex,follow')
+@section('canonical', route('myfeed'))
 @section('content')
     @php
         use Illuminate\Support\Str;
@@ -32,7 +34,7 @@
                         </span>
 
                         <a href="{{ route('news.show', [$featuredLeft->category->slug, $featuredLeft->encode_title]) }}" title="{{ $featuredLeft->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $featuredLeft->photo) }}"
+                            <img src="{{ asset('assets/images/uploads/' . $featuredLeft->photo) }}"
                                 alt="{{ $featuredLeft->news_title }}">
                         </a>
 
@@ -85,7 +87,7 @@
                         </span>
 
                        <a href="{{ route('news.show', [$featuredRight->category->slug, $featuredRight->encode_title]) }}" title="{{ $featuredRight->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $featuredRight->photo) }}"
+                            <img src="{{ asset('assets/images/uploads/' . $featuredRight->photo) }}"
                                 alt="{{ $featuredRight->news_title }}">
                         </a>
 
@@ -138,7 +140,7 @@
 
                     <div class="card-image">
                         <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}"
+                            <img src="{{ asset('assets/images/uploads/' . $item->photo) }}"
                                 alt="{{ $item->news_title }}">
                         </a>
 
@@ -224,7 +226,7 @@
 
                     <div class="card-image">
                         <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                            <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}"
+                            <img src="{{ asset('assets/images/uploads/' . $item->photo) }}"
                                 alt="{{ $item->news_title }}">
                         </a>
 

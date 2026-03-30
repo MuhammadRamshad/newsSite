@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Privacy Policy — Illuminated Magazine')
-@section('description', 'Read the privacy policy of Illuminated Magazine.')
+@section('description', 'Read the privacy policy of Illuminated Magazine to understand how we collect and use your data.')
+@section('robots', 'noindex,follow')
+@section('canonical', route('privacyPolicy'))
 
 @section('content')
 

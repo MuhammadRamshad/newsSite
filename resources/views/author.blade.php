@@ -2,22 +2,42 @@
 @extends('layouts.app')
 @section('title', $author->name . ' — Illuminated Magazine')
 @section('description', $author->bio ? Str::limit($author->bio, 155) : 'Articles by ' . $author->name . ' on Illuminated Magazine.')
+@section('keywords', $author->name . ', illuminated magazine, author, journalist')
+@section('canonical', route('author.show', $author->slug))
+@section('og_image', $author->image ? asset('assets/images/authors/' . $author->image) : asset('assets/images/foxiz.webp'))
 
 @section('schema')
 @php
 $authorSchema = [
-    "@context"  => "https://schema.org",
-    "@type"     => "Person",
-    "name"      => $author->name,
-    "url"       => route('author.show', $author->slug),
-    "jobTitle"  => $author->designation ?? 'Journalist',
-    "description" => $author->bio ?? '',
-    "image"     => $author->image ? asset('assets/images/authors/' . $author->image) : asset('assets/image/author.webp'),
+    "@context"    => "https://schema.org",
+    "@type"       => "ProfilePage",
+    "mainEntity"  => [
+        "@type"       => "Person",
+        "name"        => $author->name,
+        "url"         => route('author.show', $author->slug),
+        "jobTitle"    => $author->designation ?? 'Journalist',
+        "description" => $author->bio ?? '',
+        "image"       => [
+            "@type" => "ImageObject",
+            "url"   => $author->image ? asset('assets/images/authors/' . $author->image) : asset('assets/images/foxiz.webp'),
+        ],
+        "worksFor" => [
+            "@type" => "Organization",
+            "name"  => config('app.name', 'Illuminated Magazine'),
+        ],
+    ],
+];
+$breadcrumbSchema = [
+    "@context" => "https://schema.org",
+    "@type"    => "BreadcrumbList",
+    "itemListElement" => [
+        ["@type" => "ListItem", "position" => 1, "name" => "Home", "item" => url('/')],
+        ["@type" => "ListItem", "position" => 2, "name" => $author->name],
+    ]
 ];
 @endphp
-<script type="application/ld+json">
-{!! json_encode($authorSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
-</script>
+<script type="application/ld+json">{!! json_encode($authorSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
 @endsection
 
 @section('content')
@@ -77,7 +97,7 @@ $authorSchema = [
                 @if($index % 2 == 0)
                 <div class="ms-image">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                     </a>
                 </div>
                 <div class="ms-text">
@@ -95,7 +115,7 @@ $authorSchema = [
                 </div>
                 <div class="ms-image">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
-                        <img src="{{ url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
+                        <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                     </a>
                 </div>
                 @endif
