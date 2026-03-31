@@ -3,32 +3,64 @@
 
 <?php $__env->startSection('title', $newsDetail->news_title . ' — Illuminated Magazine'); ?>
 <?php $__env->startSection('description', Str::limit(strip_tags($newsDetail->news_content_short), 155)); ?>
-<?php $__env->startSection('image', url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo)); ?>
+<?php $__env->startSection('keywords', optional($newsDetail->category)->category_name . ', illuminated magazine, art, discoveries'); ?>
+<?php $__env->startSection('og_image', asset('assets/images/uploads/' . $newsDetail->photo)); ?>
 <?php $__env->startSection('canonical', route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title])); ?>
+<?php $__env->startSection('article_author', optional($newsDetail->author)->name ?? 'Editorial Desk'); ?>
+<?php $__env->startSection('article_section', optional($newsDetail->category)->category_name); ?>
+<?php $__env->startSection('published_time', \Carbon\Carbon::parse($newsDetail->news_date ?? $newsDetail->updated_at)->toIso8601String()); ?>
+<?php $__env->startSection('modified_time', \Carbon\Carbon::parse($newsDetail->updated_at ?? $newsDetail->news_date)->toIso8601String()); ?>
+<?php $__env->startSection('twitter_creator', '@illuminatedmag'); ?>
 
 <?php $__env->startSection('schema'); ?>
 <?php
 $articleSchema = [
     "@context"        => "https://schema.org",
-    "@type"           => "Article",
+    "@type"           => "NewsArticle",
+    "mainEntityOfPage" => [
+        "@type" => "WebPage",
+        "@id"   => route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title]),
+    ],
     "headline"        => $newsDetail->news_title,
     "description"     => Str::limit(strip_tags($newsDetail->news_content_short), 160),
-    "image"           => ['https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo],
+    "image"           => [
+        "@type"  => "ImageObject",
+        "url"    => asset('assets/images/uploads/' . $newsDetail->photo),
+        "width"  => 1200,
+        "height" => 630,
+    ],
+    "datePublished"   => \Carbon\Carbon::parse($newsDetail->news_date ?? $newsDetail->updated_at)->toIso8601String(),
     "dateModified"    => \Carbon\Carbon::parse($newsDetail->updated_at ?? $newsDetail->news_date)->toIso8601String(),
     "author"          => [
         "@type" => "Person",
         "name"  => optional($newsDetail->author)->name ?? 'Editorial Desk',
+        "url"   => $newsDetail->author ? route('author.show', $newsDetail->author->slug) : url('/'),
     ],
     "publisher" => [
         "@type" => "Organization",
-        "name"  => config('app.name'),
+        "name"  => config('app.name', 'Illuminated Magazine'),
+        "logo"  => [
+            "@type" => "ImageObject",
+            "url"   => asset('assets/images/logo.webp'),
+        ],
     ],
+    "articleSection" => optional($newsDetail->category)->category_name,
+    "wordCount"      => str_word_count(strip_tags($newsDetail->news_content ?? '')),
+    "url"            => route('news.show', [$newsDetail->category->slug, $newsDetail->encode_title]),
+];
+
+$breadcrumbSchema = [
+    "@context" => "https://schema.org",
+    "@type"    => "BreadcrumbList",
+    "itemListElement" => [
+        ["@type" => "ListItem", "position" => 1, "name" => "Home", "item" => url('/')],
+        ["@type" => "ListItem", "position" => 2, "name" => optional($newsDetail->category)->category_name, "item" => route('category.show', optional($newsDetail->category)->slug ?? '#')],
+        ["@type" => "ListItem", "position" => 3, "name" => $newsDetail->news_title],
+    ]
 ];
 ?>
-<script type="application/ld+json">
-<?php echo json_encode($articleSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); ?>
-
-</script>
+<script type="application/ld+json"><?php echo json_encode($articleSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); ?></script>
+<script type="application/ld+json"><?php echo json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); ?></script>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -39,7 +71,7 @@ $articleSchema = [
 <section class="post-hero-section">
 
     <div class="post-hero-image">
-        <img src="<?php echo e(url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $newsDetail->photo)); ?>" alt="<?php echo e($newsDetail->news_title); ?>">
+        <img src="<?php echo e(asset('assets/images/uploads/' . $newsDetail->photo)); ?>" alt="<?php echo e($newsDetail->news_title); ?>">
     </div>
 
     <div class="post-hero-container">
@@ -221,7 +253,7 @@ $articleSchema = [
         <?php $__currentLoopData = $recommended; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <article class="post-card">
             <a href="<?php echo e(route('news.show', [$item->category->slug, $item->encode_title])); ?>" title="<?php echo e($item->news_title); ?>">
-                <img src="<?php echo e(url('https://financial-journal.xyz/newspaper/cms/public/uploads/' . $item->photo)); ?>" alt="<?php echo e($item->news_title); ?>">
+                <img src="<?php echo e(asset('assets/images/uploads/' . $item->photo)); ?>" alt="<?php echo e($item->news_title); ?>">
             </a>
             <div class="post-content">
                 <span class="post-tag"><?php echo e(strtoupper($item->category->category_name)); ?></span>
