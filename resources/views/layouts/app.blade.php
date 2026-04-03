@@ -6,19 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 {{-- ===== PRIMARY SEO ===== --}}
-<title>@yield('title', 'Illuminated — Art & Discoveries')</title>
+<title>@yield('title', 'Illuminated Magazine — Art, History, Science & Discoveries')</title>
 <meta name="description" content="@yield('description', 'Illuminated Magazine covers art, history, science, discoveries and cultural stories updated daily.')">
 <meta name="keywords" content="@yield('keywords', 'art, history, science, discoveries, travel, mysteries, culture, illuminated magazine')">
 <meta name="robots" content="@yield('robots', 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1')">
 <link rel="canonical" href="@yield('canonical', url()->current())">
 
 {{-- ===== AUTHOR / PUBLISHER ===== --}}
-@hasSection('article_author')
+@if(View::hasSection('article_author'))
 <meta name="author" content="@yield('article_author')">
-@endhasSection
+@endif
 
 {{-- ===== OPEN GRAPH ===== --}}
-<meta property="og:type" content="@hasSection('published_time') article @else website @endif">
+{{-- FIX 1: Replaced inline @if inside attribute with safe ternary {{ }} --}}
+<meta property="og:type" content="{{ View::hasSection('published_time') ? 'article' : 'website' }}">
 <meta property="og:site_name" content="{{ config('app.name', 'Illuminated Magazine') }}">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="@yield('canonical', url()->current())">
@@ -28,16 +29,16 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="@yield('title', config('app.name'))">
-@hasSection('published_time')
+@if(View::hasSection('published_time'))
 <meta property="article:published_time" content="@yield('published_time')">
 <meta property="article:modified_time" content="@yield('modified_time', now()->toIso8601String())">
 <meta property="article:section" content="@yield('article_section', '')">
-@endhasSection
+@endif
 
 {{-- ===== TWITTER CARD ===== --}}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@illuminatedmag">
-<meta name="twitter:creator" content="@yield('twitter_creator', '@illuminatedmag')">
+<meta name="twitter:site" content="@@illuminatedmag">
+<meta name="twitter:creator" content="@yield('twitter_creator', '@@illuminatedmag')">
 <meta name="twitter:title" content="@yield('title', config('app.name'))">
 <meta name="twitter:description" content="@yield('description')">
 <meta name="twitter:image" content="@yield('og_image', asset('assets/images/foxiz.webp'))">
@@ -75,9 +76,13 @@ $orgSchema = [
 <script type="application/ld+json">{!! json_encode($siteSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
 <script type="application/ld+json">{!! json_encode($orgSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
 
-{{-- ===== FAVICON & THEME ===== --}}
+{{-- ===== FIX 2: FAVICON — proper full set of favicon tags ===== --}}
 <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon-16x16.png') }}">
+<meta name="theme-color" content="#ffffff">
 
 {{-- ===== PERFORMANCE ===== --}}
 <link rel="dns-prefetch" href="//fonts.googleapis.com">

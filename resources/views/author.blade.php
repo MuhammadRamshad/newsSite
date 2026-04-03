@@ -46,8 +46,9 @@ $breadcrumbSchema = [
 <section class="author-head-wrap">
     <div class="author-head-inner">
 
+        {{-- FIX 1: Added title attribute to breadcrumb <a> tag --}}
         <div class="author-breadcrumb">
-            <a href="{{ route('index') }}">Illuminated Magazine</a>
+            <a href="{{ route('index') }}" title="Illuminated Magazine Home">Illuminated Magazine</a>
             <span>&gt;</span>
             <span>Articles by: {{ $author->name }}</span>
         </div>
@@ -57,6 +58,7 @@ $breadcrumbSchema = [
                 <img src="{{ $author->image ? asset('assets/images/authors/' . $author->image) : asset('assets/image/author.webp') }}" alt="{{ $author->name }}">
             </div>
             <div class="author-details">
+                {{-- H1 is correct here — page title --}}
                 <h1 class="author-name">
                     {{ $author->name }}
                     <span class="author-verified">✔</span>
@@ -71,13 +73,14 @@ $breadcrumbSchema = [
                     <div class="author-socials">
                         @if($author->social)
                             @foreach((array)$author->social as $platform => $link)
-                                <a href="{{ $link }}" target="_blank" rel="noopener">
-                                    <img src="{{ asset('assets/image/insta.webp') }}" alt="{{ $platform }}">
+                                {{-- FIX 2: Added title attribute to social <a> tags --}}
+                                <a href="{{ $link }}" target="_blank" rel="noopener" title="Follow {{ $author->name }} on {{ ucfirst($platform) }}">
+                                    <img src="{{ asset('assets/image/insta.webp') }}" alt="{{ ucfirst($platform) }}">
                                 </a>
                             @endforeach
                         @else
-                            <img src="{{ asset('assets/image/insta.webp') }}" alt="">
-                            <img src="{{ asset('assets/image/insta.webp') }}" alt="">
+                            <img src="{{ asset('assets/image/insta.webp') }}" alt="Instagram">
+                            <img src="{{ asset('assets/image/insta.webp') }}" alt="Social Media">
                         @endif
                     </div>
                 </div>
@@ -102,14 +105,16 @@ $breadcrumbSchema = [
                 </div>
                 <div class="ms-text">
                     <span class="ms-cat">{{ strtoupper($item->category->category_name) }}</span>
-                    <h3><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h3>
+                    {{-- FIX 3: Changed <h3> to <h2> for correct heading order (H1 → H2) --}}
+                    <h2><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h2>
                     <p>{{ Str::limit(strip_tags($item->news_content_short), 130) }}</p>
                     <p class="ms-date">{{ \Carbon\Carbon::parse($item->published_at ?? $item->news_date)->format('F j, Y') }}</p>
                 </div>
                 @else
                 <div class="ms-text">
                     <span class="ms-cat">{{ strtoupper($item->category->category_name) }}</span>
-                    <h3><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h3>
+                    {{-- FIX 3: Changed <h3> to <h2> for correct heading order (H1 → H2) --}}
+                    <h2><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h2>
                     <p>{{ Str::limit(strip_tags($item->news_content_short), 130) }}</p>
                     <p class="ms-date">{{ \Carbon\Carbon::parse($item->published_at ?? $item->news_date)->format('F j, Y') }}</p>
                 </div>
@@ -128,17 +133,44 @@ $breadcrumbSchema = [
 
         <!-- Sidebar -->
         <div class="ms-sidebar">
-            <h3 class="ms-follow-title">Tap In! Follow Us Now for Fresh Daily Content</h3>
+            {{-- FIX 4: Changed <h3> to <h2> for correct heading order (H1 → H2) --}}
+            <h2 class="ms-follow-title">Tap In! Follow Us Now for Fresh Daily Content</h2>
             <div class="ms-social-grid">
-                <div class="ms-social"><img src="{{ asset('assets/image/insta.webp') }}" alt=""><span>Facebook</span></div>
-                <div class="ms-social"><img src="{{ asset('assets/image/insta.webp') }}" alt=""><span>X</span></div>
-                <div class="ms-social"><img src="{{ asset('assets/image/insta.webp') }}" alt=""><span>YouTube</span></div>
-                <div class="ms-social"><img src="{{ asset('assets/image/insta.webp') }}" alt=""><span>Patreon</span></div>
-                <div class="ms-social"><img src="{{ asset('assets/image/insta.webp') }}" alt=""><span>RSS Feed</span></div>
+                {{-- FIX 5: Added title attributes to sidebar social icon links --}}
+                <div class="ms-social">
+                    <a href="#" title="Follow us on Facebook">
+                        <img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook">
+                    </a>
+                    <span>Facebook</span>
+                </div>
+                <div class="ms-social">
+                    <a href="#" title="Follow us on X (Twitter)">
+                        <img src="{{ asset('assets/image/insta.webp') }}" alt="X">
+                    </a>
+                    <span>X</span>
+                </div>
+                <div class="ms-social">
+                    <a href="#" title="Subscribe on YouTube">
+                        <img src="{{ asset('assets/image/insta.webp') }}" alt="YouTube">
+                    </a>
+                    <span>YouTube</span>
+                </div>
+                <div class="ms-social">
+                    <a href="#" title="Support us on Patreon">
+                        <img src="{{ asset('assets/image/insta.webp') }}" alt="Patreon">
+                    </a>
+                    <span>Patreon</span>
+                </div>
+                <div class="ms-social">
+                    <a href="#" title="Subscribe to RSS Feed">
+                        <img src="{{ asset('assets/image/insta.webp') }}" alt="RSS Feed">
+                    </a>
+                    <span>RSS Feed</span>
+                </div>
             </div>
             <div class="ms-adbox">
                 <p class="ms-ad-text">- Advertisement -</p>
-                <img src="{{ asset('assets/image/img2.webp') }}" alt="Ad">
+                <img src="{{ asset('assets/image/img2.webp') }}" alt="Advertisement">
             </div>
         </div>
     </div>

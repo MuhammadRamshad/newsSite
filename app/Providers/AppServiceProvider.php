@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
 use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 
@@ -14,6 +15,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Force clear compiled view cache on every boot in local/development
+        // This prevents stale cached views from causing parse errors
+        if (app()->environment('local')) {
+            $compiledPath = storage_path('framework/views');
+            if (is_dir($compiledPath)) {
+                foreach (glob($compiledPath . '/*.php') as $file) {
+                    @unlink($file);
+                }
+            }
+        }
+
         // Only force HTTPS in production when explicitly set
         if (app()->environment('production') && config('app.url') && str_starts_with(config('app.url'), 'https')) {
             URL::forceScheme('https');

@@ -1,12 +1,14 @@
 @php use Illuminate\Support\Str; @endphp
 @extends('layouts.app')
-@section('title', 'Illuminated — Art & Discoveries')
+@section('title', 'Illuminated Magazine — Art, History, Science & Discoveries')
 @section('description', 'Illuminated Magazine covers art, history, science, discoveries and cultural stories updated daily.')
 @section('keywords', 'illuminated magazine, art, discoveries, history, science, culture, travel, stories')
 @section('canonical', url('/'))
 @section('og_image', asset('assets/images/foxiz.webp'))
 
 @section('content')
+
+<h1 class="visually-hidden">Illuminated Magazine — Art, History, Science &amp; Discoveries</h1>
 
 <!-- ============================
      1st SECTION — FEATURE AREA
@@ -23,11 +25,11 @@
                     <img src="{{ asset('assets/images/uploads/' . $featureLeft->photo) }}" alt="{{ $featureLeft->news_title }}">
                 </a>
                 <span class="fa-tag">{{ strtoupper($featureLeft->category->category_name) }}</span>
-                <h4>
+                <h2 class="fa-card-title">
                     <a href="{{ route('news.show', [$featureLeft->category->slug, $featureLeft->encode_title]) }}" title="{{ $featureLeft->news_title }}">
                         {{ $featureLeft->news_title }}
                     </a>
-                </h4>
+                </h2>
                 <p class="fa-date">{{ \Carbon\Carbon::parse($featureLeft->published_at ?? $featureLeft->news_date)->format('F j, Y') }}</p>
             </div>
             @endif
@@ -35,11 +37,11 @@
             @foreach($featureLeftList as $item)
             <div class="fa-divider"></div>
             <div class="fa-list">
-                <h5>
+                <h3 class="fa-list-title">
                     <a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">
                         {{ $item->news_title }}
                     </a>
-                </h5>
+                </h3>
                 <p class="fa-date">{{ \Carbon\Carbon::parse($item->published_at ?? $item->news_date)->format('F j, Y') }}</p>
             </div>
             @endforeach
@@ -74,14 +76,14 @@
             </div>
             <div class="fa-divider"></div>
             <div class="fa-follow">
-                <h4>Tap In! Follow Us Now for Fresh Daily Content</h4>
+                <h3>Tap In! Follow Us Now for Fresh Daily Content</h3>
                 <div class="fa-icons">
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="Instagram"></a>
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook"></a>
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="Twitter"></a>
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="YouTube"></a>
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="RSS"></a>
-                    <a href="#"><img src="{{ asset('assets/image/insta.webp') }}" alt="Patreon"></a>
+                    <a href="#" title="Follow us on Instagram"><img src="{{ asset('assets/image/insta.webp') }}" alt="Instagram"></a>
+                    <a href="#" title="Follow us on Facebook"><img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook"></a>
+                    <a href="#" title="Follow us on Twitter"><img src="{{ asset('assets/image/insta.webp') }}" alt="Twitter"></a>
+                    <a href="#" title="Follow us on YouTube"><img src="{{ asset('assets/image/insta.webp') }}" alt="YouTube"></a>
+                    <a href="#" title="Subscribe to our RSS Feed"><img src="{{ asset('assets/image/insta.webp') }}" alt="RSS"></a>
+                    <a href="#" title="Support us on Patreon"><img src="{{ asset('assets/image/insta.webp') }}" alt="Patreon"></a>
                 </div>
             </div>
         </div>
@@ -102,11 +104,11 @@
 
             @foreach($sidebarCategories as $cat)
             <div class="lf-side-item">
-                <a href="{{ route('category.show', $cat->slug) }}">
+                <a href="{{ route('category.show', $cat->slug) }}" title="{{ $cat->category_name }}">
                     <img src="{{ $cat->category_banner ? asset('assets/images/categories/' . $cat->category_banner) : asset('assets/image/img.webp') }}" alt="{{ $cat->category_name }}">
                 </a>
                 <span>{{ strtoupper($cat->category_name) }}</span>
-                <p><a href="{{ route('category.show', $cat->slug) }}">Discover More →</a></p>
+                <p><a href="{{ route('category.show', $cat->slug) }}" title="Discover more {{ $cat->category_name }} stories">Discover More →</a></p>
             </div>
             @endforeach
         </div>
@@ -146,7 +148,7 @@
      ============================ -->
 <section class="ad-banner-section">
     <div class="ad-banner-wrap">
-        <a href="#"><img src="{{ asset('assets/image/ad.webp') }}" alt="Advertisement"></a>
+        <a href="#" title="Advertisement"><img src="{{ asset('assets/image/ad.webp') }}" alt="Advertisement"></a>
     </div>
 </section>
 
@@ -209,9 +211,7 @@
     <div class="history-wrap">
         <div class="history-head">
             <h2 class="history-title">{{ $historyCategoryName }}</h2>
-            @if($historyCategory)
-            <a href="{{ route('category.show', $historyCategory->slug) }}" class="more-link">More Posts</a>
-            @endif
+            
         </div>
 
         <div class="history-top">
@@ -271,9 +271,7 @@
     <div class="ac-container">
         <div class="ac-header">
             <h2>{{ $artCategoryName }}</h2>
-            @if($artCategory)
-            <a href="{{ route('category.show', $artCategory->slug) }}" class="more-link">More Posts</a>
-            @endif
+           
         </div>
         <div class="ac-grid">
 
@@ -286,7 +284,7 @@
                         <img src="{{ asset('assets/images/uploads/' . $a0->photo) }}" class="ac-img-tall" alt="{{ $a0->news_title }}">
                     </a>
                     <div class="ac-text">
-                        <h3><a href="{{ route('news.show', [$a0->category->slug, $a0->encode_title]) }}">{{ $a0->news_title }}</a></h3>
+                        <h3><a href="{{ route('news.show', [$a0->category->slug, $a0->encode_title]) }}" title="{{ $a0->news_title }}">{{ $a0->news_title }}</a></h3>
                         <p>{{ Str::limit(strip_tags($a0->news_content_short), 90) }}</p>
                     </div>
                 </div>
@@ -298,7 +296,7 @@
                         <img src="{{ asset('assets/images/uploads/' . $a1->photo) }}" class="ac-img-short" alt="{{ $a1->news_title }}">
                     </a>
                     <div class="ac-text">
-                        <h3><a href="{{ route('news.show', [$a1->category->slug, $a1->encode_title]) }}">{{ $a1->news_title }}</a></h3>
+                        <h3><a href="{{ route('news.show', [$a1->category->slug, $a1->encode_title]) }}" title="{{ $a1->news_title }}">{{ $a1->news_title }}</a></h3>
                         <p>{{ Str::limit(strip_tags($a1->news_content_short), 80) }}</p>
                     </div>
                 </div>
@@ -314,7 +312,7 @@
                         <img src="{{ asset('assets/images/uploads/' . $a2->photo) }}" class="ac-img-short" alt="{{ $a2->news_title }}">
                     </a>
                     <div class="ac-text">
-                        <h3><a href="{{ route('news.show', [$a2->category->slug, $a2->encode_title]) }}">{{ $a2->news_title }}</a></h3>
+                        <h3><a href="{{ route('news.show', [$a2->category->slug, $a2->encode_title]) }}" title="{{ $a2->news_title }}">{{ $a2->news_title }}</a></h3>
                         <p>{{ Str::limit(strip_tags($a2->news_content_short), 80) }}</p>
                     </div>
                 </div>
@@ -326,7 +324,7 @@
                         <img src="{{ asset('assets/images/uploads/' . $a3->photo) }}" class="ac-img-tall" alt="{{ $a3->news_title }}">
                     </a>
                     <div class="ac-text">
-                        <h3><a href="{{ route('news.show', [$a3->category->slug, $a3->encode_title]) }}">{{ $a3->news_title }}</a></h3>
+                        <h3><a href="{{ route('news.show', [$a3->category->slug, $a3->encode_title]) }}" title="{{ $a3->news_title }}">{{ $a3->news_title }}</a></h3>
                         <p>{{ Str::limit(strip_tags($a3->news_content_short), 90) }}</p>
                     </div>
                 </div>
@@ -367,9 +365,7 @@
     <div class="discover-inner">
         <div class="discover-head">
             <h2 class="discover-title">{{ $discoveriesCategoryName }}</h2>
-            @if($discoveriesCategory)
-            <a href="{{ route('category.show', $discoveriesCategory->slug) }}" class="more-link">More Posts</a>
-            @endif
+           
         </div>
         <div class="discover-grid">
 
@@ -428,9 +424,7 @@
 <section class="category-section">
     <div class="section-header">
         <h2>{{ $travelCategoryName }}</h2>
-        @if($travelCategory)
-        <a href="{{ route('category.show', $travelCategory->slug) }}" class="more-link">More Posts</a>
-        @endif
+      
     </div>
     <div class="category-grid">
         @foreach($travelNews as $item)

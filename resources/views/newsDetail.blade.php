@@ -1,7 +1,7 @@
 @php use Illuminate\Support\Str; @endphp
 @extends('layouts.app')
 
-@section('title', $newsDetail->news_title . ' — Illuminated Magazine')
+@section('title', Str::limit($newsDetail->news_title, 48, '…') . ' | Illuminated')
 @section('description', Str::limit(strip_tags($newsDetail->news_content_short), 155))
 @section('keywords', optional($newsDetail->category)->category_name . ', illuminated magazine, art, discoveries')
 @section('og_image', asset('assets/images/uploads/' . $newsDetail->photo))
@@ -10,7 +10,7 @@
 @section('article_section', optional($newsDetail->category)->category_name)
 @section('published_time', \Carbon\Carbon::parse($newsDetail->news_date ?? $newsDetail->updated_at)->toIso8601String())
 @section('modified_time', \Carbon\Carbon::parse($newsDetail->updated_at ?? $newsDetail->news_date)->toIso8601String())
-@section('twitter_creator', '@illuminatedmag')
+@section('twitter_creator', '@@illuminatedmag')
 
 @section('schema')
 @php
@@ -77,16 +77,16 @@ $breadcrumbSchema = [
     <div class="post-hero-container">
 
         <div class="post-hero-breadcrumb">
-            <a href="{{ route('index') }}">Illuminated Magazine</a>
+            <a href="{{ route('index') }}" title="Illuminated Magazine Home">Illuminated Magazine</a>
             &gt;
-            <a href="{{ route('category.show', $newsDetail->category->slug) }}">{{ $newsDetail->category->category_name }}</a>
+            <a href="{{ route('category.show', $newsDetail->category->slug) }}" title="{{ $newsDetail->category->category_name }}">{{ $newsDetail->category->category_name }}</a>
             &gt;
             {{ Str::limit($newsDetail->news_title, 60) }}
         </div>
 
         <div class="post-hero-category">{{ strtoupper($newsDetail->category->category_name) }}</div>
 
-        <h1 class="post-hero-title">{{ $newsDetail->news_title }}</h1>
+        <h1 class="post-hero-title" title="{{ $newsDetail->news_title }}">{{ Str::limit($newsDetail->news_title, 65) }}</h1>
 
         <p class="post-hero-excerpt">
             {{ Str::limit(strip_tags($newsDetail->news_content_short), 200) }}
@@ -126,13 +126,13 @@ $breadcrumbSchema = [
 
             <div class="post-hero-share">
                 <span>Share</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" title="Share on Facebook" target="_blank" rel="noopener">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook">
                 </a>
-                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($newsDetail->news_title) }}" target="_blank">
+                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($newsDetail->news_title) }}" title="Share on Twitter" target="_blank" rel="noopener">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="Twitter">
                 </a>
-                <a href="https://wa.me/?text={{ urlencode($newsDetail->news_title . ' ' . url()->current()) }}" target="_blank">
+                <a href="https://wa.me/?text={{ urlencode($newsDetail->news_title . ' ' . url()->current()) }}" title="Share on WhatsApp" target="_blank" rel="noopener">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="WhatsApp">
                 </a>
             </div>
@@ -152,13 +152,13 @@ $breadcrumbSchema = [
         <!-- Share Column (sticky sidebar) -->
         <div class="detail-share">
             <span class="detail-share-title">SHARE</span>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" title="Share on Facebook" target="_blank" rel="noopener">
                 <img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook">
             </a>
-            <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($newsDetail->news_title) }}" target="_blank">
+            <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($newsDetail->news_title) }}" title="Share on Twitter" target="_blank" rel="noopener">
                 <img src="{{ asset('assets/image/insta.webp') }}" alt="Twitter">
             </a>
-            <a href="https://wa.me/?text={{ urlencode($newsDetail->news_title . ' ' . url()->current()) }}" target="_blank">
+            <a href="https://wa.me/?text={{ urlencode($newsDetail->news_title . ' ' . url()->current()) }}" title="Share on WhatsApp" target="_blank" rel="noopener">
                 <img src="{{ asset('assets/image/insta.webp') }}" alt="WhatsApp">
             </a>
         </div>
@@ -187,16 +187,16 @@ $breadcrumbSchema = [
         <div class="article-share-row">
             <div class="article-share-left">
                 <span class="article-share-icon">↗</span>
-                <h3>Share This Article</h3>
+                <h2 class="article-share-heading">Share This Article</h2>
             </div>
             <div class="article-share-right">
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="share-btn">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" title="Share on Facebook" target="_blank" rel="noopener" class="share-btn">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="Facebook">
                 </a>
-                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}" target="_blank" class="share-btn-icon">
+                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}" title="Share on Twitter" target="_blank" rel="noopener" class="share-btn-icon">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="Twitter">
                 </a>
-                <a href="https://wa.me/?text={{ urlencode(url()->current()) }}" target="_blank" class="share-btn-icon">
+                <a href="https://wa.me/?text={{ urlencode(url()->current()) }}" title="Share on WhatsApp" target="_blank" rel="noopener" class="share-btn-icon">
                     <img src="{{ asset('assets/image/insta.webp') }}" alt="WhatsApp">
                 </a>
             </div>
@@ -223,7 +223,7 @@ $breadcrumbSchema = [
                 </div>
             </div>
             <div class="article-author-follow">
-                <a href="{{ route('author.show', $newsDetail->author->slug) }}" class="btn-subscribe" style="text-decoration:none;">View All Posts</a>
+                <a href="{{ route('author.show', $newsDetail->author->slug) }}" title="View all posts by {{ $newsDetail->author->name }}" class="btn-subscribe" style="text-decoration:none;">View All Posts</a>
             </div>
         </div>
         @endif

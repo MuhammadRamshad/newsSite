@@ -1,6 +1,6 @@
 @php use Illuminate\Support\Str; @endphp
 @extends('layouts.app')
-@section('title', $category->category_name . ' — Illuminated Magazine')
+@section('title', 'Latest ' . $category->category_name . ' News, Articles & Discoveries — Illuminated Magazine')
 @section('description', 'Explore the latest ' . $category->category_name . ' articles, stories and discoveries on Illuminated Magazine.')
 @section('keywords', $category->category_name . ', illuminated magazine, art, discoveries, culture')
 @section('canonical', route('category.show', $category->slug))
@@ -11,7 +11,7 @@
 $categorySchema = [
     "@context" => "https://schema.org",
     "@type"    => "CollectionPage",
-    "name"     => $category->category_name . ' — Illuminated Magazine',
+    "name"     => 'Latest ' . $category->category_name . ' News, Articles & Discoveries — Illuminated Magazine',
     "description" => 'Explore the latest ' . $category->category_name . ' articles on Illuminated Magazine.',
     "url"      => route('category.show', $category->slug),
     "publisher" => [
@@ -38,11 +38,11 @@ $breadcrumbSchema = [
 <section class="cat-head-section">
     <div class="cat-head-container">
         <div class="cat-breadcrumb">
-            <a href="{{ route('index') }}">Illuminated Magazine</a>
+            <a href="{{ route('index') }}" title="Illuminated Magazine Home">Illuminated Magazine</a>
             <span>&gt;</span>
             <span class="cat-current">{{ $category->category_name }}</span>
         </div>
-        <h1 class="cat-title">{{ $category->category_name }}</h1>
+        <h1 class="cat-title">Latest {{ $category->category_name }} News, Articles &amp; Discoveries</h1>
     </div>
 </section>
 
@@ -61,7 +61,7 @@ $breadcrumbSchema = [
                 </a>
                 <div class="hs-overlay">
                     <span class="hs-tag">{{ strtoupper($f0->category->category_name) }}</span>
-                    <h3><a href="{{ route('news.show', [$f0->category->slug, $f0->encode_title]) }}" title="{{ $f0->news_title }}">{{ $f0->news_title }}</a></h3>
+                    <h2 class="hs-card-title"><a href="{{ route('news.show', [$f0->category->slug, $f0->encode_title]) }}" title="{{ $f0->news_title }}">{{ $f0->news_title }}</a></h2>
                     <p class="hs-date">{{ \Carbon\Carbon::parse($f0->published_at ?? $f0->news_date)->format('F j, Y') }}</p>
                 </div>
             </div>
@@ -74,7 +74,7 @@ $breadcrumbSchema = [
                     <img src="{{ asset('assets/images/uploads/' . $f1->photo) }}" alt="{{ $f1->news_title }}">
                 </a>
                 <span class="hs-tag">{{ strtoupper($f1->category->category_name) }}</span>
-                <h4><a href="{{ route('news.show', [$f1->category->slug, $f1->encode_title]) }}" title="{{ $f1->news_title }}">{{ $f1->news_title }}</a></h4>
+                <h3 class="hs-card-title"><a href="{{ route('news.show', [$f1->category->slug, $f1->encode_title]) }}" title="{{ $f1->news_title }}">{{ $f1->news_title }}</a></h3>
                 <p class="hs-date">{{ \Carbon\Carbon::parse($f1->published_at ?? $f1->news_date)->format('F j, Y') }}</p>
             </div>
             @endif
@@ -88,7 +88,7 @@ $breadcrumbSchema = [
                     <img src="{{ asset('assets/images/uploads/' . $item->photo) }}" alt="{{ $item->news_title }}">
                 </a>
                 <span class="hs-tag">{{ strtoupper($item->category->category_name) }}</span>
-                <h5><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h5>
+                <h4 class="hs-card-title"><a href="{{ route('news.show', [$item->category->slug, $item->encode_title]) }}" title="{{ $item->news_title }}">{{ $item->news_title }}</a></h4>
             </div>
             @endforeach
             <div class="hs-ad">

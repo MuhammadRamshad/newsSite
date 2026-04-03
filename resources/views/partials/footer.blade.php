@@ -12,17 +12,17 @@
             <div class="quick-title"><span class="quick-box">Quick Links</span></div>
             <ul class="footer-links">
                 @foreach($circleCategories as $cat)
-                    <li><a href="{{ route('category.show', $cat->slug) }}">{{ $cat->category_name }}</a></li>
+                    <li><a href="{{ route('category.show', $cat->slug) }}" title="{{ $cat->category_name }}">{{ $cat->category_name }}</a></li>
                 @endforeach
-                <li><a href="{{ route('about') }}">About</a></li>
-                <li><a href="{{ route('privacyPolicy') }}">Privacy Policy</a></li>
+                <li><a href="{{ route('about') }}" title="About Illuminated Magazine">About</a></li>
+                <li><a href="{{ route('privacyPolicy') }}" title="Illuminated Magazine Privacy Policy">Privacy Policy</a></li>
             </ul>
             <div class="footer-social">
-                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" alt="Instagram"></a>
-                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" alt="Facebook"></a>
-                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" alt="Twitter"></a>
-                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" alt="YouTube"></a>
-                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" alt="RSS"></a>
+                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" title="Follow us on Instagram" alt="Instagram"></a>
+                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" title="Follow us on Facebook" alt="Facebook"></a>
+                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" title="Follow us on Twitter" alt="Twitter"></a>
+                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" title="Watch us on YouTube" alt="YouTube"></a>
+                <a href="#"><img src="{{ asset('assets/image/footer-instagram.webp') }}" title="Subscribe to RSS Feed" alt="RSS"></a>
             </div>
         </div>
         <div class="footer-right">
